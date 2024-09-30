@@ -1,8 +1,10 @@
-# optional stuff that will clear the window each time you run it.
 import os
 import platform
 
 def clear_screen():
+    """
+    Clears the terminal screen to make it easier to follow along with code.
+    """
     if platform.system() == 'Windows':
         os.system('cls')
     else:
@@ -10,66 +12,126 @@ def clear_screen():
 
 clear_screen()
 
-###########################
-# START READING HERE
-###########################
+# ==================
+# DATETIME FUNCTIONS
+# ==================
+
+'''
+OVERVIEW
+--------
+We may just skip over these or briefly show off the reference file for time's
+sake. Python includes a lot of very useful ways to get the time and track
+how much time has passed.
+'''
 
 
-from datetime import datetime, timezone
-# datetime is part of the python standard library. 
-# this one is kind of dumb because the name of the module is called "datetime" but then that module has a class (which we haven't learned about)
-# also called "datetime". So you are saying "from the module called datetime, import the class datetime that has all those functions I want."
+from datetime import datetime
+'''
+datetime is part of the python standard library. 
+importing it is confusing, because the module is called "datetime" but then
+that module has a class (which we haven't learned about)
+also called "datetime". So you are saying "from the module called datetime,
+import the class datetime that has all those functions I want."
+'''
 
-
-# two ways of getting the date and time:
+# 1. GET CURRENT DATE/TIME
 # datetime.now()
-# datetime.today()
 print("now() function: ", datetime.now())
-print("today() function:", datetime.today(), "\n")
 
-# they are the same except that now() allows you to specify a specific time zone
-# today() just always gives the current timezone of your computer
-print("now() with UTC timezone", datetime.now(timezone.utc), "\n\n")
+# 2. ACCESSING SPECIFIC PARTS OF A DATETIME
+# Using the date_time_example variable below,
+# Try accessing whatever specific parts of the datetime you want. print them.
 
+date_time_example = datetime.now()
+'''
+You can access any specfic part of a datetime object
+    - .date()
+    - .year
+    - .month
+    - .day
+    - .hour
+    - .minute
+    - .second
+    - .microsecond (millionth of a second)
+'''
+print("date:", date_time_example.date())
+print("year", date_time_example.year)
+print("month", date_time_example.month)
+print("day", date_time_example.day)
+print("hour", date_time_example.hour)
+print("minute", date_time_example.minute)
+print("second", date_time_example.second)
+print("microsecond (millionths of seconds)", date_time_example.microsecond)
 
-#let's store the datetime in a variable:
-dateTimeExample = datetime.now()
+# 3. CREATE YOUR OWN DATETIME OBJECT
+# use datetime(year, month, day) to create a new datetime object
+# of any date you want. print the date out.
+date_time_obj = datetime(2022, 10, 23)
+print("\n\nmade with datetime() function", date_time_obj)
 
-# you can access any specific part of the time:
-print("date:", dateTimeExample.date())
-print("year", dateTimeExample.year)
-print("month", dateTimeExample.month)
-print("day", dateTimeExample.day)
-print("hour", dateTimeExample.hour)
-print("minute", dateTimeExample.minute)
-print("second", dateTimeExample.second)
-print("microsecond (millionths of seconds)", dateTimeExample.microsecond)
+# 4. FIND THE NUMBER OF DAYS BETWEEN NOW AND ANOTHER DATE
+# Using the datetime you created in #3. subtract today's datetime
+# from it and see how many days are between the 2 using .days
+date_difference = date_time_example - date_time_obj
+print(f"Num days difference: {date_difference.days}")
 
-# strftime() or "string format time" function. Put it into more readable formats:
-# we dont have time to show them all, but see chapter 9.5 for more examples:
+'''
+Note, by default you can't get the number of years or months out of subtracting
+dates, but if you want that functionality you can either write your own
+logic for it, or import 3rd party libraries like dateutil.relativedelta
+'''
 
-print("\n\nstrftime() example:", dateTimeExample.strftime("%A %B %d"), "\n\n")
+'''
+FORMATTING DATETIMES AS STRINGS
+-------------------------------
+When you have a datetime object, you can turn it into a string that is
+formatted a specific way using strftime() or "string format time".
 
-# strptime() or "string parse time" function.
-# when you want to create a datetime object from a string.
-# you need to give it a date as a string, and another string that tells how it is formatted:
+You need to provide formatting instructions. See below. We won't practice all
+of these. Just look them up if you ever need them.
 
-dateString = "2023-09-26 14:45:08"
-formatString = "%Y-%m-%d %H:%M:%S"
+DATE:
+•	%Y: Year with century (e.g., 2023).
+•	%y: Year without century (last two digits, e.g., 23 for 2023).
+•	%m: Month as a zero-padded decimal number (01–12).
+•	%B: Full month name (e.g., September).
+•	%b: Abbreviated month name (e.g., Sep).
+•	%d: Day of the month as a zero-padded decimal number (01–31).
+•	%A: Full weekday name (e.g., Monday).
+•	%a: Abbreviated weekday name (e.g., Mon).
+•	%w: Weekday as a decimal number (0 for Sunday, 6 for Saturday).
+•	%j: Day of the year as a zero-padded decimal number (001–366).
+•	%U: Week number of the year (Sunday as the first day of the week, 00–53).
+•	%W: Week number of the year (Monday as the first day of the week, 00–53).
 
-datetimeObj = datetime.strptime(dateString, formatString)
-print("datetime created from a string:", datetimeObj)  # Outputs: 2023-09-26 14:45:08
-print("see, it created a datetime object:", type(datetimeObj))  # Outputs: <class 'datetime.datetime'>
+TIME:
+•	%H: Hour (24-hour clock) as a zero-padded decimal number (00–23).
+•	%I: Hour (12-hour clock) as a zero-padded decimal number (01–12).
+•	%p: AM or PM (locale-specific).
+•	%M: Minute as a zero-padded decimal number (00–59).
+•	%S: Second as a zero-padded decimal number (00–59).
+•	%f: Microsecond as a decimal number (000000–999999).
+•	%z: UTC offset in the form +HHMM or -HHMM (if available).
+•	%Z: Time zone name (if available).
 
-# you can give it different formats, the format string just has to match it:
-dateString = "2023/09/26"
-formatString = "%Y/%m/%d"
+'''
 
-datetimeObj = datetime.strptime(dateString, formatString)
-print("\nnotice it that the seconds are 00:00:00", datetimeObj)  
-print("see, it created a datetime object:", type(datetimeObj))
+# 5. FORMATTING DATETIME AS STRINGS
+# use strftime() to format date_time_example with the day of the week %A
+# month %B and day %d
+print(f"strftime() example: {date_time_example.strftime('%A %B %d')}")
 
+# 6. CREATE A DATETIME FROM A STRING
+# Given date_string and format_string, create a datetime object using
+# datetime.strptime()
 
-# you can also create a datetime like this:
-datetimeObj = datetime(2021, 10, 22)
-print("\n\nmade with datetime() function", datetimeObj)
+date_string = "2023-09-26 14:45:08"
+format_string = "%Y-%m-%d %H:%M:%S"
+'''
+strptime() or "string parse time" function.
+when you want to create a datetime object from a string.
+you need to give it a date as a string, and another string that tells how it is formatted.
+'''
+
+new_date_time_obj = datetime.strptime(date_string, format_string)
+print("datetime created from a string:", new_date_time_obj)

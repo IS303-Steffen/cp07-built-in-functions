@@ -100,8 +100,9 @@ print("index example 3:", example_string_5[3:])
 # Given example_emails_list, use find() to find the start of the domain
 # of each email address (the thing that starts with @)
 # print out just the domain of the email address using string indexing.
-example_emails_list = ["tom@gmail.com", "emily@yahoo.com",
-                               "james@icloud.com"]
+example_emails_list = ["tom@gmail.com",
+                       "emily@yahoo.com",
+                       "james@icloud.com"]
 
 for email in example_emails_list:
     at_position = email.find("@")

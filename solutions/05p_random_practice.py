@@ -6,31 +6,27 @@ clear_screen()
 # =========================
 
 
-# 1. PRACTICE - GENERATING RANDOM NUMBERS AND SELECTING RANDOM CHOICES
-# Generate a Random Number: Generate a random number between 1 and 100. This is your "number of the day".
-
-# Choose a Random Color: pick a color from a predefined list of colors (e.g., ["Red", "Blue", "Green", "Yellow", "Purple"]).
-
-# Determine Lucky Day:
-# If the number is above 50 and the color is either Blue, Green, or Yellow, it's a "lucky day."
-# Otherwise, it's a "normal day."
-
-# Output: Print a message to inform the user whether it's a lucky day or a normal day based on the number and color.
-# Include the number and color they generated
+# 1. PRACTICE - GENERATING RANDOM NUMBERS
+'''
+1. Use the random library to generate a number from 1 to 50.
+2. Ask the user to guess the number.
+3. If their guess is too low or too high, tell them.
+4. Keep asking them to enter a number until they get it right.
+5. When they guess it, tell them how many tries it took.
+'''
 
 import random
 
-# Generate a random number between 1 and 100
-number = random.randrange(1, 101)
+secret = random.randint(1, 50)
+guess = -1 # make guess something not equal to secret so the while loop can start.
+tries = 0
 
-# Choose a random color from the list
-color = random.choice(["Red", "Blue", "Green", "Yellow", "Purple"])
+while guess != secret:
+    guess = int(input("Guess a number between 1 and 50: "))
+    tries += 1
+    if guess < secret:
+        print("Too low.")
+    elif guess > secret:
+        print("Too high.")
 
-# Determine if it's a lucky day or a normal day
-if number > 50 and color in ["Blue", "Green", "Yellow"]:
-    message = "It's a lucky day!"
-else:
-    message = "It's a normal day."
-
-# Output the result
-print(f"Your number for today is {number}, and your color is {color}. {message}")
+print(f"You got it in {tries} tries! The number was {secret}.")
